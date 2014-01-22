@@ -95,6 +95,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Options.vb" />
+    <Compile Include="PageInfo.vb" />
+    <Compile Include="RazorHelper.vb" />
+    <Compile Include="SChineseSentenceBuilder.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -116,6 +120,7 @@
     </None>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="ResultsPage.vbhtml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
