@@ -16,12 +16,40 @@ Public Class PageInfo
 
 
     ''' <summary>
+    ''' URL 的Hash 
+    ''' </summary>
+    ''' <remarks></remarks>
+    Public ReadOnly Property HashKey As String
+        Get
+            If String.IsNullOrEmpty(_urlHash) Then
+                Me._urlHash = GetUniquePageLinkHash(Me.Url)
+            End If
+
+            Return Me._urlHash
+        End Get
+    End Property
+
+    Dim _urlHash As String
+
+    Dim _url As Uri
+
+    ''' <summary>
     ''' Url
     ''' </summary>
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
     Public Property Url As Uri
+        Get
+            Return _url
+        End Get
+        Set(value As Uri)
+            If Me._url Is Nothing AndAlso value IsNot Nothing Then
+                Me._url = value
+                Me._urlHash = GetUniquePageLinkHash(Me.Url)
+            End If
+        End Set
+    End Property
 
     ''' <summary>
     ''' 链接
@@ -35,6 +63,8 @@ Public Class PageInfo
     ''' 深度级别
     ''' </summary>
     Public Property DeepLevel As Integer
+
+
 
 
     ''' <summary>

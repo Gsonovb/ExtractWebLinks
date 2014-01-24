@@ -34,35 +34,127 @@
         <div class="tab-content">
             <div class="tab-pane active" id="home">
                 <div class="container">
-                    <a class="page-header">
-                        <h1>结果信息</h1>
-                    </a>
                     <div>
-                        <div class="row">
-                            <label class="col-sm-2">输出文件：</label>
-                            <div class="col-sm-10">
-                                <p class="form-control-static">@Model.Filename</p>
+                        <a class="page-header">
+                            <h1>结果信息</h1>
+                        </a>
+                        <div>
+                            <div class="row">
+                                <label class="col-sm-2">输出文件：</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static">@Model.Filename</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2">最大深度：</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static">@Model.Maxdeep </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2">URL变换：</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static">@Model.Transform.ToString() </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2">起始地址：</label>
+                                <ol class="col-sm-10">
+                                    @For Each url In Model.Urls
+                                        @<li class="code">@url.ToString()</li>
+                                    Next
+                                </ol>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2">检查规则：</label>
+                                <ol class="col-sm-10">
+                                    @For Each rule In Model.Rules
+                                        @<li class="code">@rule</li>
+                                    Next
+                                </ol>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2">URL排除规则：</label>
+                                <ol class="col-sm-10">
+                                    @For Each rule In Model.exUrlRules
+                                        @<li class="code">@rule</li>
+                                    Next
+                                </ol>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2">Title排除规则：</label>
+                                <ol class="col-sm-10">
+                                    @For Each rule In Model.exTitleRules
+                                        @<li class="code">@rule</li>
+                                    Next
+                                </ol>
                             </div>
                         </div>
-                        <div class="row">
-                            <label class="col-sm-2">起始地址：</label>
-                            <div class="col-sm-10">
-                                <p class="form-control-static">@Model.Root.ToString() </p>
+                    </div>
+                    <div>
+                        <a class="page-header">
+                            <h1>Options 信息</h1>
+                        </a>
+                        <div>
+                            <div class="row">
+                                <label class="col-sm-2">输出文件：</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static">@Model.Options.FileName</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-2">最大深度：</label>
-                            <div class="col-sm-10">
-                                <p class="form-control-static">@Model.Maxdeep </p>
+                            <div class="row">
+                                <label class="col-sm-2">XPath：</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static">@Model.Options.XPath </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-2">检查规则：</label>
-                            <ol class="col-sm-10">
-                                @For Each rule In Model.Rules
-                                    @<li class="">@rule </li>
-                                Next
-                            </ol>
+                            <div class="row">
+                                <label class="col-sm-2">URL变换：</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static">@Model.Options.Transform </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2">起始地址：</label>
+                                <ol class="col-sm-10">
+                                    @If Model.Options.StartUrls IsNot Nothing Then
+                                        For Each url In Model.Options.StartUrls
+                                        @<li class="code">@url</li>
+                                        Next
+                                    End If
+                                </ol>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2">检查规则：</label>
+                                <ol class="col-sm-10">
+
+                                    @If Model.Options.Rules IsNot Nothing Then
+                                        For Each rule In Model.Options.Rules
+                                        @<li class="code">@rule</li>
+                                        Next
+                                    End If
+                                </ol>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2">URL排除规则：</label>
+                                <ol class="col-sm-10">
+                                    @If Model.Options.exUrlRules IsNot Nothing Then
+                                        For Each rule In Model.Options.exUrlRules
+                                        @<li class="code">@rule</li>
+                                        Next
+                                    End If
+                                </ol>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2">Title排除规则：</label>
+                                <ol class="col-sm-10">
+                                    @If Model.Options.exTitleRules IsNot Nothing Then
+                                        For Each rule In Model.Options.exTitleRules
+                                        @<li class="code">@rule</li>
+                                        Next
+                                    End If
+                                </ol>
+                            </div>
                         </div>
                     </div>
                 </div>
