@@ -29,10 +29,12 @@ Module Module1
 
 
 
-            'StartUrls
 
-            If options.StartUrls Is Nothing AndAlso options.StartUrls.Length = 0 Then
+            If options.StartUrls Is Nothing OrElse options.StartUrls.Length = 0 Then
                 Console.WriteLine("请指定起始地址")
+
+                Console.WriteLine(options.GetUsage())
+
                 Return
             End If
 
