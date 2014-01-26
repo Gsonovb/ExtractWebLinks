@@ -90,14 +90,14 @@ Module Module1
         Dim html = New HtmlAgilityPack.HtmlWeb
 
 
-    
+
         Dim rules As New HashSet(Of String)
 
         If options.Rules.Any Then
             For Each r In options.Rules
                 rules.Add(r)
             Next
-       
+
         End If
 
 
@@ -119,7 +119,10 @@ Module Module1
 
 
 
-        Dim startUrls = options.StartUrls.Select(Function(url) New PageInfo With {.Title = "", .Url = NormalizedLink(url, Nothing, Nothing), .DeepLevel = 0, .Links = New List(Of PageInfo)}).ToList
+        Dim startUrls = options.StartUrls.Select(Function(url) New PageInfo With {.Title = "",
+                                                                                  .Url = NormalizedLink(url, Nothing, Nothing),
+                                                                                  .DeepLevel = 0,
+                                                                                  .Links = New List(Of PageInfo)}).ToList
 
 
         Dim chars = "\^$*+?{}.()".ToList()
@@ -175,6 +178,14 @@ Module Module1
         Console.WriteLine("初始化完成...")
 
 
+        Console.WriteLine("检查插件...")
+
+
+        StartUsePlugins(options, Allinks, trees, rules, exUrlRules, exTitleRules, UrlTransform, xpath, maxdeep)
+
+
+
+        Console.WriteLine("开始扫描网页...")
 
         StartScans(options, Allinks, rules, exUrlRules, exTitleRules, UrlTransform, xpath, html, maxdeep)
 
@@ -206,19 +217,149 @@ Module Module1
     End Sub
 
 
+#Region "插件处理"
+
+    ''' <summary>
+    ''' 使用插件
+    ''' </summary>
+    ''' <param name="options">参数</param>
+    ''' <param name="Allinks">所有链接</param>
+    ''' <param name="trees">书</param>
+    ''' <param name="rules">规则</param>
+    ''' <param name="exUrlRules">排除URL规则</param>
+    ''' <param name="exTitleRules">排除标题规则</param>
+    ''' <param name="UrlTransform">URL变换</param>
+    ''' <param name="xpath"></param>
+    ''' <param name="maxdeep">最大深度</param>
+    ''' <remarks></remarks>
+    Private Sub StartUsePlugins(options As Options,
+                                Allinks As Dictionary(Of String, PageInfo),
+                                trees As HashSet(Of PageInfo),
+                                rules As HashSet(Of String),
+                                exUrlRules As HashSet(Of String),
+                                exTitleRules As HashSet(Of String),
+                                UrlTransform As KeyValuePair(Of String, String),
+                                xpath As String,
+                                maxdeep As Integer)
+
+
+        Dim manger = PluginManger.Default
+
+
+        If manger.LinksDiscovery IsNot Nothing AndAlso manger.LinksDiscovery.Any Then
+            Console.WriteLine("找到 {0} 插件.", manger.LinksDiscovery.Count)
+
+            For Each p In manger.LinksDiscovery
+                Console.WriteLine("插件:{0}:{1}  Match:{2}", p.Metadata.Name, p.Metadata.Description, p.Metadata.UrlMatchRule)
+            Next
+
+
+            For Each pi In trees
+                Dim link = pi.Url.ToString()
+                Dim plugin = manger.LinksDiscovery.FirstOrDefault(Function(item) Regex.IsMatch(link, item.Metadata.UrlMatchRule, RegexOptions.IgnoreCase))
+
+                If plugin IsNot Nothing AndAlso plugin.Value.CanProcess(pi.Url) Then
+
+                    Console.WriteLine("使用插件:{0}", plugin.Metadata.Name)
+
+                    Dim links = plugin.Value.DiscoverLinks(pi.Url, xpath, maxdeep)
+
+
+                    For Each item In links
+
+                        '递归处理
+                        ScanLinks(options, Allinks, rules, exUrlRules, exTitleRules, UrlTransform, xpath, maxdeep, item, pi)
+                    Next
+                End If
+            Next
+
+            Console.WriteLine("插件处理完成...")
+        Else
+            Console.WriteLine("未找到任何插件...")
+        End If
+
+    End Sub
+
+    ''' <summary>
+    ''' 扫描外部插件获取到的链接
+    ''' </summary>
+    ''' <param name="options">参数</param>
+    ''' <param name="Allinks">所有页面</param>
+    ''' <param name="rules">规则</param>
+    ''' <param name="excludeTitleRules">Title排除规则</param>
+    ''' <param name="excludeUrlRules">URL排除规则</param>
+    ''' <param name="UrlTransform">URL规则</param>
+    ''' <param name="xpath">文档Xpath</param>
+    ''' <param name="maxdeep">最大深度</param>
+    ''' <param name="link">链接信息</param>
+    ''' <param name="page">上级页面</param>
+    ''' <remarks></remarks>
+    Private Sub ScanLinks(options As Options,
+                          Allinks As Dictionary(Of String, PageInfo),
+                          rules As HashSet(Of String),
+                          excludeUrlRules As HashSet(Of String),
+                          excludeTitleRules As HashSet(Of String),
+                          UrlTransform As KeyValuePair(Of String, String),
+                          xpath As String,
+                          maxdeep As Integer,
+                          link As Common.LinkInfo,
+                          page As PageInfo)
+
+        '链接不正确
+        If Not CheckLinkPartString(link.Url) Then Return
+
+
+
+        Dim nLink = NormalizedLink(link.Url, Nothing, UrlTransform)
+
+        If nLink IsNot Nothing AndAlso CheckCrawlerRules(nLink, page, Allinks, rules, excludeUrlRules) AndAlso CheckTitleRules(link.Title, excludeTitleRules) Then
+            Dim newpage = New PageInfo With {.Title = link.Title,
+                                                .Url = nLink,
+                                                .DeepLevel = page.DeepLevel + 1,
+                                                .Links = New List(Of PageInfo),
+                                               .Parent = page}
+
+            Dim key = newpage.HashKey
+            If Not Allinks.ContainsKey(key) Then
+                Allinks.Add(key, newpage)
+
+                page.Links.Add(newpage)
+
+            Else
+                '如果 已经添加
+                newpage = Allinks(key)
+
+            End If
+
+            For Each item In link.Links
+                ScanLinks(options, Allinks, rules, excludeUrlRules, excludeTitleRules, UrlTransform, xpath, maxdeep, item, newpage)
+            Next
+
+        End If
+
+
+    End Sub
+
+
+#End Region
+
+
+#Region "页面处理"
+
+
 
     ''' <summary>
     ''' 扫描网页
     ''' </summary>
-    ''' <param name="options"></param>
-    ''' <param name="Allinks"></param>
-    ''' <param name="rules"></param>
-    ''' <param name="exUrlRules"></param>
-    ''' <param name="exTitleRules"></param>
-    ''' <param name="UrlTransform"></param>
-    ''' <param name="xpath"></param>
-    ''' <param name="html"></param>
-    ''' <param name="maxdeep"></param>
+    ''' <param name="options">参数</param>
+    ''' <param name="Allinks">所有页面</param>
+    ''' <param name="rules">规则</param>
+    ''' <param name="exTitleRules">Title排除规则</param>
+    ''' <param name="exUrlRules">URL排除规则</param>
+    ''' <param name="UrlTransform">URL规则</param>
+    ''' <param name="xpath">文档Xpath</param>
+    ''' <param name="html">网页加载器</param>
+    ''' <param name="maxdeep">最大深度</param>
     ''' <remarks></remarks>
     Private Sub StartScans(options As Options,
                            Allinks As Dictionary(Of String, PageInfo),
@@ -271,7 +412,15 @@ Module Module1
         '超过深度, 或者已经处理过的
         If page.DeepLevel > maxdeep OrElse (Allinks.ContainsKey(linkey) AndAlso Allinks(linkey).isPrccessed) Then Return
 
-        If Not Allinks.ContainsKey(linkey) Then Allinks(linkey) = page
+
+        If page.isDeleted Then
+            DeletePage(Allinks, page)
+            Return
+        End If
+
+        If Not Allinks.ContainsKey(linkey) Then Return
+
+
 
         For i = 1 To 3
             Console.WriteLine("获取网页（深度：{0}）| {1},重试次数：{2} ...",
@@ -285,7 +434,6 @@ Module Module1
                 Dim doc = loader.Load(page.Url.ToString())
 
 
-
                 Dim title = doc.DocumentNode.SelectSingleNode("/html/head/title").InnerText.Trim
 
                 '名字检查 
@@ -294,12 +442,7 @@ Module Module1
                 Allinks(linkey).isPrccessed = True
 
                 If Not CheckTitleRules(title, excludeTitleRules) Then
-                    page.Links.ForEach(Sub(item)
-                                           Allinks.Remove(item.HashKey)
-                                       End Sub)
-
-                    Allinks.Remove(page.HashKey)
-
+                    DeletePage(Allinks, page)
                     Return
                 End If
 
@@ -315,9 +458,7 @@ Module Module1
 
                         For Each p In parts
                             Dim items = p.SelectNodes("//a[@href]")
-
                             linknodes.AddRange(items)
-
                         Next
                     End If
 
@@ -326,15 +467,12 @@ Module Module1
                 If linknodes Is Nothing Then
 
                     Dim nodes = doc.DocumentNode.SelectNodes("//a[@href]")
-
                     If nodes IsNot Nothing Then linknodes = nodes.ToList()
                 End If
 
 
 
-
                 If linknodes IsNot Nothing Then
-
 
                     Dim lns = From n In linknodes
                                 Let link = WebUtility.HtmlDecode(n.Attributes("href").Value.Trim), text = WebUtility.HtmlDecode(n.InnerText)
@@ -350,7 +488,8 @@ Module Module1
                                 Select New PageInfo With {.Title = l.Title,
                                                             .Url = nLink,
                                                             .DeepLevel = page.DeepLevel + 1,
-                                                            .Links = New List(Of PageInfo)}).ToList
+                                                            .Links = New List(Of PageInfo),
+                                                            .Parent = page}).ToList
 
 
                     links.ForEach(Sub(link)
@@ -361,14 +500,14 @@ Module Module1
                                       End If
                                   End Sub)
 
-                    For Each link In page.Links
+
+                    Dim linksclone = page.Links.ToList
+
+                    For Each link In linksclone
 
                         '递归检查链接
                         GetPageLinks(Allinks, rules, excludeUrlRules, excludeTitleRules, UrlTransform, DocumentxPath, loader, maxdeep, link)
                     Next
-
-
-
 
                 End If
 
@@ -392,12 +531,38 @@ Module Module1
 
             Threading.Thread.Sleep(time)
 
-
         Next
 
-
-
     End Sub
+
+
+
+    ''' <summary>
+    ''' 删除页面
+    ''' </summary>
+    ''' <param name="Allinks">所有链接</param>
+    ''' <param name="page">要删除的页面</param>
+    ''' <remarks></remarks>
+    Private Sub DeletePage(Allinks As Dictionary(Of String, PageInfo), page As PageInfo)
+        page.isDeleted = True
+
+        Allinks.Remove(page.HashKey)
+
+        Dim clone = page.Links.ToList
+
+        clone.ForEach(Sub(item)
+                          DeletePage(Allinks, item)
+                      End Sub)
+
+        If page.Parent IsNot Nothing Then
+            page.Parent.Links.Remove(page)
+        End If
+    End Sub
+
+
+
+#End Region
+
 
 
 #Region "URL处理  和链接审查"
@@ -496,7 +661,7 @@ Module Module1
     ''' <remarks></remarks>
     Private Function CheckTitleRules(title As String, rules As HashSet(Of String)) As Boolean
 
-        For Each r In Rules
+        For Each r In rules
             If Regex.IsMatch(title, r, RegexOptions.IgnoreCase) Then
                 Return False
             End If
@@ -621,6 +786,14 @@ Module Module1
         sw.WriteLine()
         sw.WriteLine()
 
+
+        sw.WriteLine("找到连接数:, ""{0}""", Allinks.Count)
+
+        sw.WriteLine()
+        sw.WriteLine()
+
+
+
         sw.WriteLine("输出文件:, ""{0}""", filename)
         sw.WriteLine("起始地址:")
         For i = 0 To startUrls.Count - 1
@@ -664,6 +837,23 @@ Module Module1
 
         sw.WriteLine("URL变换:, ""{0}""", UrlTransform.ToString())
 
+
+
+        sw.WriteLine()
+        sw.WriteLine()
+
+        Dim manger = PluginManger.Default
+
+        If manger.LinksDiscovery IsNot Nothing Then
+            sw.WriteLine("找到 {0} 插件.", manger.LinksDiscovery.Count)
+
+            For Each p In manger.LinksDiscovery
+                sw.WriteLine("插件:{0}:{1}  Match:{2}", p.Metadata.Name, p.Metadata.Description, p.Metadata.UrlMatchRule)
+            Next
+        End If
+
+
+
         sw.WriteLine("====================================")
         sw.WriteLine("options:")
 
@@ -684,7 +874,7 @@ Module Module1
                     sw.WriteLine("{0},""{1}""", i + 1, .StartUrls(i))
                 Next
             End If
-        
+
 
             sw.WriteLine("检查规则:")
             If .Rules IsNot Nothing Then
@@ -700,7 +890,7 @@ Module Module1
                     sw.WriteLine("{0},""{1}""", i + 1, .exTitleRules(i))
                 Next
             End If
-        
+
 
             sw.WriteLine("URL排除规则")
             If .exUrlRules IsNot Nothing Then
@@ -708,7 +898,7 @@ Module Module1
                     sw.WriteLine("{0},""{1}""", i + 1, .exUrlRules(i))
                 Next
             End If
-     
+
 
 
 
@@ -818,6 +1008,7 @@ Module Module1
 
         Dim xml = <ol>
                       <%= From item In list
+                          Where Not item.isDeleted
                           Select GetTreeHTMLItem(item)
                       %>
                   </ol>
@@ -837,7 +1028,8 @@ Module Module1
 
 #End Region
 
- 
+
+
 
 End Module
 

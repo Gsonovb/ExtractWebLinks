@@ -1,9 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ExtractWebLinks", "ExtractWebLinks\ExtractWebLinks.vbproj", "{062BC66C-6E7F-4BC5-86E4-9E2EDE9F5AE9}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ExtractWebLinks.Common", "ExtractWebLinks.Common\ExtractWebLinks.Common.vbproj", "{5FAC9105-3560-4EE3-A259-8018799BAA22}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ExtractWebLinks.Plugins", "ExtractWebLinks.Plugins\ExtractWebLinks.Plugins.vbproj", "{BF6B2A16-BFCE-4825-9BE8-5FEB982AA6C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{D72289A2-C5E8-44BE-9827-C8EF94ED4350}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MSDNLibraryPlugin", "MSDNLibraryPlugin\MSDNLibraryPlugin.vbproj", "{CF1FAD4D-5344-4444-9C53-D52FF2C52C5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +23,23 @@ Global
 		{062BC66C-6E7F-4BC5-86E4-9E2EDE9F5AE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{062BC66C-6E7F-4BC5-86E4-9E2EDE9F5AE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{062BC66C-6E7F-4BC5-86E4-9E2EDE9F5AE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FAC9105-3560-4EE3-A259-8018799BAA22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FAC9105-3560-4EE3-A259-8018799BAA22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FAC9105-3560-4EE3-A259-8018799BAA22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FAC9105-3560-4EE3-A259-8018799BAA22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF6B2A16-BFCE-4825-9BE8-5FEB982AA6C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF6B2A16-BFCE-4825-9BE8-5FEB982AA6C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF6B2A16-BFCE-4825-9BE8-5FEB982AA6C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF6B2A16-BFCE-4825-9BE8-5FEB982AA6C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF1FAD4D-5344-4444-9C53-D52FF2C52C5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF1FAD4D-5344-4444-9C53-D52FF2C52C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF1FAD4D-5344-4444-9C53-D52FF2C52C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF1FAD4D-5344-4444-9C53-D52FF2C52C5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CF1FAD4D-5344-4444-9C53-D52FF2C52C5E} = {D72289A2-C5E8-44BE-9827-C8EF94ED4350}
 	EndGlobalSection
 EndGlobal

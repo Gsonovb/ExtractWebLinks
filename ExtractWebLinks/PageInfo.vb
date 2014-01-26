@@ -15,6 +15,21 @@ Public Class PageInfo
     Public Property Title As String
 
 
+
+
+    ''' <summary>
+    ''' 上级
+    ''' </summary>
+    Public Property Parent As PageInfo
+
+
+    ''' <summary>
+    ''' 标记 是否删除
+    ''' </summary>
+    Public Property isDeleted As Boolean
+
+
+
     ''' <summary>
     ''' URL 的Hash 
     ''' </summary>
@@ -44,7 +59,7 @@ Public Class PageInfo
             Return _url
         End Get
         Set(value As Uri)
-            If Me._url Is Nothing AndAlso value IsNot Nothing Then
+            If value IsNot Nothing Then
                 Me._url = value
                 Me._urlHash = GetUniquePageLinkHash(Me.Url)
             End If
@@ -80,19 +95,6 @@ Public Class PageInfo
 
 
 
-
-
-    Public Overrides Function Equals(obj As Object) As Boolean
-        Dim t = TryCast(obj, PageInfo)
-        If t Is Nothing Then
-            Return Me.Url.Equals(t.Url)
-        End If
-        Return False
-    End Function
-
-    Public Overrides Function GetHashCode() As Integer
-        Return Me.Url.GetHashCode()
-    End Function
 
     Public Overrides Function ToString() As String
         Return Me.Title & "|" & Me.Url.ToString()
