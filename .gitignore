@@ -17,6 +17,7 @@ obj/
 # Build results
 [Dd]ebug/
 [Rr]elease/
+packages/
 x64/
 *_i.c
 *_p.c
