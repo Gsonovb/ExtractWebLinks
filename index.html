@@ -1,96 +1,156 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" media="screen" />
+    <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <title>Extractweblinks by Gsonovb</title>
-</head>
-<body>
-    <header>
-        <div class="inner">
-            <h1>Extractweblinks</h1>
-            <h2>Extract Web Links &amp; Relations</h2>
-            <a href="https://github.com/Gsonovb/ExtractWebLinks" class="button"><small>View project on</small>GitHub</a>
-        </div>
-    </header>
-    <div id="content-wrapper">
-        <div class="inner clearfix">
-            <section id="main-content">
-                <h1>
-                    <a name="extractweblinks" class="anchor" href="#extractweblinks"><span class="octicon octicon-link"></span></a>ExtractWebLinks
-                </h1>
-                <p>Extract Web Links &amp; Relations</p>
-                <p>提取网页链接和关系并导出。</p>
 
-                <div>
-                    <p>
-                        本程序的目标是帮助快速建立网页链接的目录列表，方便制作学习规划。<br />
-                        本程序使用以下技术：
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" href="css/jumbotron.css">
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body data-spy="scroll" data-target="#mynavbar">
+
+    <nav id="mynavbar" class="navbar  navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Extractweblinks</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#introduction">简介</a></li>
+                    <li class=""><a href="#Screenshot">截图</a></li>
+                    <li class=""><a href="#help">使用帮助</a></li>
+                    <li class=""><a href="#example">事例</a></li>
+                    <li class=""><a href="#issues">问题反馈</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a class="btn btn-lg" href="https://github.com/Gsonovb/ExtractWebLinks" role="button">
+                        <small>View project on </small>GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+
+
+    <div id="introduction" class="jumbotron">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="container">
+                    <h1>Extractweblinks</h1>
+                    <p>Extract Web Links &amp; Relations</p>
+                    <p class="small">
+                        提取网页链接和关系并导出。<br />
+                        本程序的目标是帮助快速建立网页链接的目录列表，方便制作学习规划。&nbsp;
                     </p>
 
-                    <ul>
-
-                        <li>VB.NET 2013</li>
-                        <li>Managed Extensibility Framework (MEF)</li>
-                        <li><a href="http://james.newtonking.com/json">JSon.NET</a></li>
-                        <li>HtmlAgilityPack</li>
-                        <li>CommandLineParser</li>
-
-                    </ul>
-
-                </div>
-
-                <div>
-                    <h3>使用帮助</h3>
-
                     <div>
+                        <a class="btn btn-primary" href="publish/ExtractWebLinks.rar" role="button"><span class="glyphicon glyphicon-download"></span>下载程序</a>
+                        <a class="btn btn-default " href="https://github.com/Gsonovb/ExtractWebLinks/archive/0.1.zip" role="button"><span class="glyphicon glyphicon-download-alt"></span>源码</a>
 
-                        <pre> ExtractWebLinks (-u|--url &quot;http://www.google.com&quot; ) (-d|--maxdeep 1) 
+                    </div>
+                    <div>
+                        <a class="btn btn-info" href="https://github.com/Gsonovb/ExtractWebLinks/zipball/master" role="button"><span class="glyphicon glyphicon-cloud-download"></span>下载最新源代码（.zip）</a>
+                        <a class="btn btn-success" href="https://github.com/Gsonovb/ExtractWebLinks/tarball/master" role="button"><span class="glyphicon glyphicon-cloud-download"></span>下载最新源代码（.tar.gz）</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 small">
+                <p>本程序使用以下技术：</p>
+                <ul>
+                    <li>VB.NET 2013</li>
+                    <li><a href="http://msdn.microsoft.com/zh-cn/library/dd460648.aspx">Managed Extensibility Framework (MEF)</a></li>
+                    <li><a href="http://james.newtonking.com/json">JSon.NET</a></li>
+                    <li><a href="http://htmlagilitypack.codeplex.com/">HtmlAgilityPack</a></li>
+                    <li><a href="https://github.com/gsscoder/commandline">CommandLineParser</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="container">
+        <section id="Screenshot">
+            <h1>截图</h1>
+            <div class="container">
+                <img src="images/run.png" class="img-responsive  center-block  " alt="">
+            </div>
+        </section>
+
+        <section id="help">
+            <h1>使用帮助</h1>
+
+            <div class="container">
+                <pre> ExtractWebLinks (-u|--url &quot;http://www.google.com&quot; ) (-d|--maxdeep 1) 
                 [-o|--filename &quot;output&quot;] [-x|--xpath &quot;//*[@id=&#39;mainBody&#39;]&quot; ]
                 [-t|--transform &quot;(\d*)||-&quot; ] [-r|--rules &quot;(\w*)&quot; &quot;(\d*)&quot; ]
                 [-exUrlRules &quot;(\d*)&quot; ] [-exTitleRules &quot;(\d*)&quot; ]
                 [-s|--save &quot;start.config&quot; ][-l|--load &quot;start.config&quot; ]</pre>
-                        <pre><em>-u, --url</em> 制定要检索的URL地址，可以指定多个</pre>
-                        <pre><em>-d, --maxdeep</em> 最大深度，默认值1 </pre>
-                        <pre><em>-o, --filename</em>  输出文件名 </pre>
-                        <pre><em>-x, --xpath</em> 提取页面指定XPath 部分内容的链接</pre>
-                        <pre><em> -r, --rules</em> URL检查规则，使用正则表达式。</pre>
-                        <pre><em> --exUrlRules</em> URL 排除规则，使用正则表达式。</pre>
-                        <pre><em> --exTitleRules</em> Title 排除规则，使用正则表达式。</pre>
-                        <pre><em> -t, --transform</em> URL变换，使用 “||”做分隔符，将 左边的内容替换成右边的，使用正则表达式。 </pre>
-                        <pre><em>-s, --save</em> 保存配置到文件 </pre>
-                        <pre><em>-l, --load</em> 加载配置文件 </pre>
-                        
-                    </div>
+                <p><em>-u, --url</em> 指定要检索的URL地址，可以指定多个。</p>
+                <p><em>-d, --maxdeep</em> 最大深度，默认值为1 。</p>
+                <p><em>-o, --filename</em>  输出文件名，默认值为“Output”。没有扩展名，程序会自动输出 CSV和HTML 2中格式文件。</p>
+                <p><em>-x, --xpath</em> 提取页面指定XPath 部分内容的XPath，如果指定的链接没有找到，则搜索全部页面。支持 “|”组合形式</p>
+                <p><em>-r, --rules</em> URL检查规则，可以多个。使用正则表达式。检索到的地址必须满足这个规则，可以使用这个避开一些不需要链接。</p>
+                <p><em>--exUrlRules</em> URL 排除规则，可以多个。使用正则表达式。 排除指定地址的规则，程序不会访问满足这些规则的链接，也不会探测其页面。</p>
+                <p><em>--exTitleRules</em> Title 排除规则，可以多个。使用正则表达式。同上，这个是审查标题。</p>
+                <p><em>-t, --transform</em> URL变换，使用 “||”做分隔符，将 左边的内容替换成右边的，使用正则表达式。 </p>
+                <p><em>-s, --save</em> 保存配置到文件，可以将当前的输入参数保存到配置文件中。</p>
+                <p><em>-l, --load</em> 加载配置文件 ，从配置文件中加载参数运行。</p>
 
-                </div>
+            </div>
+        </section>
 
-               
+        <section id="example">
+            <h1>事例</h1>
+            <div class="container">
+                <ul>
+                    <li>
+                        <div>
+                            <pre>ExtractWebLinks.exe -l ConfigSample.Config</pre>
+                            <p>下载MSDN上的链接信息</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
 
-            </section>
-            <aside id="sidebar">
-                <a href="https://github.com/Gsonovb/ExtractWebLinks/zipball/master" class="button">
-                    <small>Download</small>
-                    .zip file
-                </a>
-                <a href="https://github.com/Gsonovb/ExtractWebLinks/tarball/master" class="button">
-                    <small>Download</small>
-                    .tar.gz file
-                </a>
+        <section id="issues">
+            <h1>问题反馈</h1>
+            <div class="container">
+                <p>有任何问题可以反馈到<a href="https://github.com/Gsonovb/ExtractWebLinks/issues">这里</a>！</p>
+            </div>
+        </section>
+        <hr>
 
-                <p class="repo-owner"><a href="https://github.com/Gsonovb/ExtractWebLinks"></a>is maintained by <a href="https://github.com/Gsonovb">Gsonovb</a>.</p>
-                <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-            </aside>
-        </div>
+        <footer>
+            <p class="repo-owner">&copy; 2014 <a href="https://github.com/Gsonovb/ExtractWebLinks"></a>is maintained by <a href="https://github.com/Gsonovb">Gsonovb</a>.</p>
+        </footer>
     </div>
+
 
 </body>
 </html>
